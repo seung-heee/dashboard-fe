@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+#root {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: oklch(98.5% 0.002 247.839);
+}
+
+.app-wrapper {
+    width: 100%;
+    max-width: 768px;
+    min-width: 360px;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+}
