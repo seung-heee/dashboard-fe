@@ -1,15 +1,17 @@
-import {createBrowserRouter} from "react-router";
-import RootLayout from "./layout/RootLayout.tsx";
-import Home from "./pages/Home.tsx";
+import { createBrowserRouter } from 'react-router';
+import RootLayout from './layout/RootLayout.tsx';
+import Home from './pages/Home.tsx';
+import CreatePost from './pages/CreatePost.tsx';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     Component: RootLayout,
     children: [
-      { index: true, Component: Home }
-    ]
+      { index: true, Component: Home },
+      { path: 'create-post', Component: CreatePost },
+    ],
   },
 ]);
 
-export default router
+export default router;

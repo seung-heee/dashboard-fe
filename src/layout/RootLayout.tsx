@@ -2,9 +2,9 @@ import {Outlet} from "react-router";
 
 const RootLayout = () => {
   return (
-      <div className='app-wrapper'>
-        <Outlet />
-      </div>
+    <div className="app-wrapper bg-slate-50/50">
+      <Outlet />
+    </div>
   );
 };
 
