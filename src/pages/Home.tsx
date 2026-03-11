@@ -1,31 +1,31 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import PostCard from '../components/PostCard.tsx';
 import HomeHeader from '../components/HomeHeader.tsx';
-
-const initialPosts = [
-  {
-    id: 1,
-    title: '첫 번째 게시물입니다',
-    content: 'Vite와 React로 만드는 CRUD 게시판!',
-    writer: '제미니',
-  },
-  {
-    id: 2,
-    title: 'Tailwind CSS 꿀팁',
-    content: 'bg-sky-100은 정말 예쁜 색상이에요.',
-    writer: '코딩왕',
-  },
-];
+import { useDeletePost, usePosts } from '../hooks/usePosts.ts';
+import type { Post } from '../types/post.ts';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [posts, setPosts] = useState(initialPosts);
+  const { data: posts, isLoading, isError } = usePosts();
+  const { mutate: deletePost } = useDeletePost();
 
-  // 삭제 로직: 간지나게 confirm 하나 띄워주고 필터링!
+  if (isLoading)
+    return (
+      <div className="p-10 text-center text-slate-400">
+        데이터를 불러오는 중...
+      </div>
+    );
+
+  if (isError)
+    return (
+      <div className="p-10 text-center text-red-400">
+        데이터를 가져오지 못했습니다.
+      </div>
+    );
+
   const handleDelete = (id: number) => {
-    if (window.confirm('이 소중한 글을 삭제하시겠습니까?')) {
-      setPosts(posts.filter((post) => post.id !== id));
+    if (confirm('이 글을 삭제하시겠습니까?')) {
+      deletePost(id);
     }
   };
 
@@ -35,15 +35,14 @@ const Home = () => {
         <HomeHeader />
 
         <main className="flex flex-col gap-4">
-          {posts.length > 0 ? (
-            posts.map((post) => (
+          {posts?.length > 0 ? (
+            posts.map((post: Post) => (
               <PostCard
                 key={post.id}
                 title={post.title}
                 content={post.content}
                 writer={post.writer}
-                // 상세 페이지 이동 (가칭 /post/1)
-                onEdit={() => navigate(`/edit/${post.id}`)}
+                onEdit={() => navigate(`/update-post/${post.id}`)}
                 onDelete={() => handleDelete(post.id)}
               />
             ))

@@ -1,5 +1,5 @@
-import { FC } from 'react';
 import { useNavigate } from 'react-router';
+import type { FC } from 'react';
 
 type Props = {
   title: string;
